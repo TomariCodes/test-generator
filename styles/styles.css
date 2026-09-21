@@ -1,0 +1,65 @@
+:root {
+--bg-dark: oklch(0.92 0 30);
+--bg: oklch(0.96 0 30);
+--bg-light: oklch(1 0 30);
+--text: oklch(0.15 0 30);
+--text-muted: oklch(0.4 0 30);
+--highlight: oklch(1 0 30);
+--border: oklch(0.6 0 30);
+--border-muted: oklch(0.7 0 30);
+--primary: oklch(0.4 0.1 30);
+--secondary: oklch(0.4 0.1 210);
+--danger: oklch(0.5 0.05 30);
+--warning: oklch(0.5 0.05 100);
+--success: oklch(0.5 0.05 160);
+--info: oklch(0.5 0.05 260);
+}
+
+:root.dark {
+--bg-dark: oklch(0.1 0 30);
+--bg: oklch(0.15 0 30);
+--bg-light: oklch(0.2 0 30);
+--text: oklch(0.96 0 30);
+--text-muted: oklch(0.76 0 30);
+--highlight: oklch(0.5 0 30);
+--border: oklch(0.4 0 30);
+--border-muted: oklch(0.3 0 30);
+--primary: oklch(0.76 0.1 30);
+--secondary: oklch(0.76 0.1 210);
+--danger: oklch(0.7 0.05 30);
+--warning: oklch(0.7 0.05 100);
+--success: oklch(0.7 0.05 160);
+--info: oklch(0.7 0.05 260);
+}
+
+body {
+    background-color: var(--bg-dark);
+    color: var(--text);
+}
+
+input {
+    background-color: var(--bg-light);
+    color: var(--text);
+}
+
+.btn-primary {
+    background-color: var(--primary);
+    border-color: var(--primary);
+    color: var(--bg-light);
+}
+
+.btn-primary:hover {
+    background-color: transparent;
+    border-color: var(--primary);
+    color: var(--primary);
+}
+
+.btn-primary:active {
+    background-color: var(--primary);
+    border-color: var(--primary);
+    color: var(--bg-light);
+}
+
+.btn-primary.dark, .btn-primary.dark:hover, .btn-primary.dark:active {
+    color: var(--text);
+}
