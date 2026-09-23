@@ -5,6 +5,7 @@ const difficultySelect = document.getElementById("difficulty");
 const numQuestionsInput = document.getElementById("numQuestions");
 const categorySelect = document.getElementById("category");
 const quizGeneratorForm = document.getElementById("quizGeneratorForm");
+const scoreContainer = document.getElementById("scoreContainer");
 
 let grammarPoints = [];
 let vocabularyWords = [];
@@ -105,6 +106,7 @@ function handleMakeQuiz(response) {
   const quizForm = document.createElement("form");
   quizForm.classList.add("quiz-form");
   formContainer.appendChild(quizForm);
+  quizForm.addEventListener("submit", handleQuizSubmit);
   for (const question in questions) {
     let questionHTML = "";
     let questionNumber = parseInt(question) + 1;
@@ -120,8 +122,9 @@ function handleMakeQuiz(response) {
               return `<div>
              <input type="radio" name="multiple-choice-${questionNumber}" id="question-${questionNumber}-option-${option}" value="${option}" />
              <label for="question-${questionNumber}-option-${option}">${getLetter(index)}. ${option}</label></div>`;
-            })}
+            }).join("")}
              </div>
+             <p id="question-${questionNumber}-correct-answer" class="correct-answer noDisplay"></p>
              </div>
              `;
     } else {
@@ -130,6 +133,8 @@ function handleMakeQuiz(response) {
             <label for="question-${questionNumber}">Question ${questionNumber}</label>
             <p>${questions[question]}</p>
             <input type="text" lang="en" id="question-${questionNumber}-answer" name="question-${questionNumber}-answer"/>
+
+            <p id="question-${questionNumber}-correct-answer" class="correct-answer noDisplay"></p>
             </div>`;
     }
     quizHTML += questionHTML;
@@ -151,16 +156,83 @@ function handleFormSubmit(e) {
   axios.get(apiURL).then(handleMakeQuiz);
 }
 
+function handleQuizSubmit(event) {
+  event.preventDefault();
+  let score = 0;
+
+  // First get user's selected answers
+  // Then compare the keywords in AI answers with the user's selected answers
+  let userAnswers = {};
+  for (let i = 1; i <= numQuestionsInput.value; i++) {
+    let answer =
+      document.querySelector(`[name="multiple-choice-${i}"]:checked`)?.value ||
+      document.querySelector(`#question-${i}-answer`)?.value;
+    userAnswers[`question-${i}`] = answer;
+  }
+  for (let i = 1; i <= numQuestionsInput.value; i++) {
+    let correctAnswer = answers[i - 1];
+
+    console.log(correctAnswer);
+    console.log(userAnswers[`question-${i}`]);
+    // Get the input element for the user's answer
+    // This will be used to highlight the user's answer if it is incorrect
+    let answerInput = document.querySelector(`#question-${i}-answer`);
+    let correctWords = correctAnswer.trim().toLowerCase().split(/\s+/);
+    let userWords = (userAnswers[`question-${i}`] || "")
+      .trim()
+      .toLowerCase()
+      .split(/\s+/);
+    let isCorrect = correctWords.every((word) => userWords.includes(word));
+    if (isCorrect) {
+      score++;
+    } else {
+      console.log(
+        `Question ${i} is incorrect. Correct answer: ${correctAnswer}`,
+      );
+      if (answerInput) {
+        answerInput.classList.add("incorrect");
+      }
+      let correctAnswerElement = document.querySelector(
+        `#question-${i}-correct-answer`,
+      );
+      if (correctAnswerElement) {
+        correctAnswerElement.classList.remove("noDisplay");
+        correctAnswerElement.classList.add("highlight");
+        correctAnswerElement.textContent = `Correct answer: ${correctAnswer}`;
+      }
+    }
+  }
+
+  // Render the correct answers
+  for (let i = 1; i <= numQuestionsInput.value; i++) {
+    let correctAnswerElement = document.querySelector(
+      `#question-${i}-correct-answer`,
+    );
+    if (correctAnswerElement) {
+      correctAnswerElement.classList.remove("noDisplay");
+      correctAnswerElement.classList.add("highlight");
+      correctAnswerElement.textContent = `Correct answer: ${answers[i - 1]}`;
+    }
+  }
+
+  // Highlight the score based on pass/fail
+  let scoreSpan = scoreContainer.querySelectorAll("span")[0];
+  let totalSpan = scoreContainer.querySelectorAll("span")[1];
+  scoreContainer.innerHTML = `<p>Your score is \n <span>${score}</span> out of <span>${numQuestionsInput.value}</span></p>`;
+  if (scoreSpan && totalSpan) {
+    if (score / numQuestionsInput.value >= 0.6) {
+      scoreSpan.classList.add("passed");
+    totalSpan.classList.add("passed");
+  } else {
+    scoreSpan.classList.add("failed");
+    totalSpan.classList.add("failed");
+  }
+  scoreContainer.classList.remove("noDisplay");
+}
+}
+
 quizConceptInput.addEventListener("keydown", addConcept);
 quizGeneratorForm.addEventListener("submit", handleFormSubmit);
-// quizForm.addEventListener("submit", handleQuizSubmit);
 
 // Ensure that the input field is not empty before adding a concept
-// Add the new concept to the appropriate list based on the selected category
-// Ensure that the lists are displayed correctly after each addition
-// Ensure that the Enter key triggers the addition of the concept without submitting the form
-// When the form is submitted handle making the prompt for the quiz based on the selected options and added concepts
-// Use AI API to generate quiz questions and answers based on the selected options and added concepts
-// Use the generated quiz questions to create an interactive quiz interface for the user
-// Allow the user to take the test
-// Generate the final score after the user completes the quiz and show it and the correct answers to the user.
+// Generate the final score after the user completes the quiz and show it and the correct answers for each question to the user.

@@ -12,6 +12,7 @@
 <body>
     <div class="container" id="container">
         <h1 class="text-center my-4">Korean Quiz Generator</h1>
+        <div class="text-center score-container noDisplay" id="scoreContainer"></div>
         <div class="text-center" id="formContainer">
             <form class="px-5" id="quizGeneratorForm">
                 <div class="mb-3">
@@ -36,7 +37,7 @@
 
                 <div class="mb-3">
                     <label for="quiz-concept" class="form-label">Grammar/Vocabulary</label>
-                    <input type="text" lang="ko" class="form-control" id="quizConcept" name="quiz-concept" placeholder="단어나 문법을 입력하세요">
+                    <input type="text" lang="ko" class="form-control" id="quizConcept" name="quiz-concept" placeholder="Type in a grammar point or vocabulary word, then press 'Enter'">
                 </div>
 
                 <div class="vocabulary-list mb-3" id="vocabularyList"></div>

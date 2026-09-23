@@ -120,3 +120,37 @@ input {
 .quiz-form input[type="radio"] {
     margin-right: 0.5rem;
 }
+
+.noDisplay {
+    display: none;
+}
+
+.score-container {
+    text-align: center;
+    margin: 1rem 0;
+    background-color: var(--bg-light);
+    padding: 1rem;
+    border-radius: 0.25rem;
+    border: 1px solid var(--border);
+}
+
+.score-container span.passed {
+    color: var(--success);
+}
+
+.score-container span.failed {
+    color: var(--danger);
+}
+
+.correct-answer {
+    color: var(--success);
+    font-size: 1rem;
+    margin-top: 0.5rem;
+    padding: 0.5rem 1rem;
+    background-color: var(--bg-light);
+}
+
+.incorrect {
+    border: 1px solid var(--danger);
+    color: var(--danger);
+}
