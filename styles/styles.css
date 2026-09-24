@@ -104,7 +104,7 @@ input {
     margin-bottom: 0.5rem;
 }
 
-.quiz-form p {
+.quiz-form .question {
     color: var(--text-muted);
     font-size: 1.1rem;
 }
@@ -126,12 +126,17 @@ input {
 }
 
 .score-container {
-    text-align: center;
     margin: 1rem 0;
     background-color: var(--bg-light);
     padding: 1rem;
     border-radius: 0.25rem;
     border: 1px solid var(--border);
+}
+
+.score-container p {
+    text-align: center;
+    font-size: 1.2rem;
+    margin: 0;
 }
 
 .score-container span.passed {
@@ -153,4 +158,14 @@ input {
 .incorrect {
     border: 1px solid var(--danger);
     color: var(--danger);
+}
+
+.highlight {
+    background-color: var(--success);
+    color: var(--text);
+    border-radius: 0.25rem;
+}
+
+.highlight.dark {
+    color: var(--bg-dark);
 }

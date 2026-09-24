@@ -116,13 +116,15 @@ function handleMakeQuiz(response) {
       questionHTML = `
              <div class="mb-3">
             <label for="question-${questionNumber}" class="m-2">Question ${questionNumber}:</label>
-            <p>${questions[question].question}</p>
+            <p class="question">${questions[question].question}</p>
             <div class="d-flex flex-column">
-            ${questions[question].options.map((option, index) => {
-              return `<div>
+            ${questions[question].options
+              .map((option, index) => {
+                return `<div>
              <input type="radio" name="multiple-choice-${questionNumber}" id="question-${questionNumber}-option-${option}" value="${option}" />
              <label for="question-${questionNumber}-option-${option}">${getLetter(index)}. ${option}</label></div>`;
-            }).join("")}
+              })
+              .join("")}
              </div>
              <p id="question-${questionNumber}-correct-answer" class="correct-answer noDisplay"></p>
              </div>
@@ -131,7 +133,7 @@ function handleMakeQuiz(response) {
       questionHTML = `
             <div class="mb-3">
             <label for="question-${questionNumber}">Question ${questionNumber}</label>
-            <p>${questions[question]}</p>
+            <p class="question">${questions[question]}</p>
             <input type="text" lang="en" id="question-${questionNumber}-answer" name="question-${questionNumber}-answer"/>
 
             <p id="question-${questionNumber}-correct-answer" class="correct-answer noDisplay"></p>
@@ -216,9 +218,9 @@ function handleQuizSubmit(event) {
   }
 
   // Highlight the score based on pass/fail
+  scoreContainer.innerHTML = `<p>Your score is \n <span>${score}</span> out of <span>${numQuestionsInput.value}</span></p>`;
   let scoreSpan = scoreContainer.querySelectorAll("span")[0];
   let totalSpan = scoreContainer.querySelectorAll("span")[1];
-  scoreContainer.innerHTML = `<p>Your score is \n <span>${score}</span> out of <span>${numQuestionsInput.value}</span></p>`;
   if (scoreSpan && totalSpan) {
     if (score / numQuestionsInput.value >= 0.6) {
       scoreSpan.classList.add("passed");
@@ -227,8 +229,8 @@ function handleQuizSubmit(event) {
     scoreSpan.classList.add("failed");
     totalSpan.classList.add("failed");
   }
-  scoreContainer.classList.remove("noDisplay");
 }
+  scoreContainer.classList.remove("noDisplay");
 }
 
 quizConceptInput.addEventListener("keydown", addConcept);
