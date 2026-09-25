@@ -115,7 +115,7 @@ function handleMakeQuiz(response) {
     if (questions[question].options) {
       questionHTML = `
              <div class="mb-3">
-            <label for="question-${questionNumber}" class="m-2">Question ${questionNumber}:</label>
+            <label for="question-${questionNumber}-answer" class="m-2">Question ${questionNumber}:</label>
             <p class="question">${questions[question].question}</p>
             <div class="d-flex flex-column">
             ${questions[question].options
@@ -134,7 +134,7 @@ function handleMakeQuiz(response) {
             <div class="mb-3">
             <label for="question-${questionNumber}">Question ${questionNumber}</label>
             <p class="question">${questions[question]}</p>
-            <input type="text" lang="en" id="question-${questionNumber}-answer" name="question-${questionNumber}-answer"/>
+            <input type="text" lang="en" id="question-${questionNumber}-answer" name="question-${questionNumber}-answer" class="answer-input"/>
 
             <p id="question-${questionNumber}-correct-answer" class="correct-answer noDisplay"></p>
             </div>`;
@@ -193,6 +193,7 @@ function handleQuizSubmit(event) {
       );
       if (answerInput) {
         answerInput.classList.add("incorrect");
+        answerInput.disabled = true;
       }
       let correctAnswerElement = document.querySelector(
         `#question-${i}-correct-answer`,
@@ -235,6 +236,3 @@ function handleQuizSubmit(event) {
 
 quizConceptInput.addEventListener("keydown", addConcept);
 quizGeneratorForm.addEventListener("submit", handleFormSubmit);
-
-// Ensure that the input field is not empty before adding a concept
-// Generate the final score after the user completes the quiz and show it and the correct answers for each question to the user.

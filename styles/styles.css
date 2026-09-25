@@ -109,7 +109,7 @@ input {
     font-size: 1.1rem;
 }
 
-.quiz-form input {
+.quiz-form .answer-input {
     background-color: var(--bg-light);
     color: var(--text);
     border: 1px solid var(--border);
@@ -155,7 +155,7 @@ input {
     background-color: var(--bg-light);
 }
 
-.incorrect {
+.answer-input.incorrect, .answer-input:disabled {
     border: 1px solid var(--danger);
     color: var(--danger);
 }
